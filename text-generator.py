@@ -11,7 +11,6 @@ parser.add_argument('-l', '--length', help='Length of generating text')
 args = vars(parser.parse_args())
 
 
-
 def fit_model(texts_path, model_data_path):
     letters = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'
     words = {}
@@ -58,6 +57,7 @@ def generate_text(model_data_path, length):
         prev_word = next_word
     print(s)
 
+
 if args['mode'] == 'train':
     if args['texts_folder'] and args['model_data']:
         fit_model(args['texts_folder'], args['model_data'])
@@ -71,4 +71,3 @@ elif args['mode'] == 'generate':
             generate_text(args['model_data'], 5)
     else:
         print("Path to model data isn't set")
-
