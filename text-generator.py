@@ -1,6 +1,15 @@
 import glob
 import pickle
 import random
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-m', '--mode', help='Text-generator mode(train or generate)')
+parser.add_argument('-t', '--texts-folder', help='Path to folder with texts(for training model)')
+parser.add_argument('-d', '--model-data', help='Path to model')
+parser.add_argument('-l', '--length', help='Length of generating text')
+args = vars(parser.parse_args())
+
 
 
 def fit_model(texts_path, model_data_path):
@@ -49,6 +58,17 @@ def generate_text(model_data_path, length):
         prev_word = next_word
     print(s)
 
+if args['mode'] == 'train':
+    if args['texts_folder'] and args['model_data']:
+        fit_model(args['texts_folder'], args['model_data'])
+    else:
+        print("Texts folder or model data path aren't set")
+elif args['mode'] == 'generate':
+    if args['model_data']:
+        if args['length']:
+            generate_text(args['model_data'], int(args['length']))
+        else:
+            generate_text(args['model_data'], 5)
+    else:
+        print("Path to model data isn't set")
 
-fit_model("texts", "models/model.data")
-generate_text("models/model.data", 5)
